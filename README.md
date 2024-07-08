@@ -1,5 +1,22 @@
 # hammal
 
-Hammal 是运行于 cloudflare workers 上的 Docker 镜像加速工具，用于解决获取 Docker 官方镜像无法正常访问的问题。
+Build self-hosted docker mirror in cloudflare.
 
-文档： https://singee.atlassian.net/wiki/spaces/MAIN/pages/5079084/Cloudflare+Workers+Docker 
+1. run `pnpm install `
+2. copy `wrangler.toml.sample` to `wrangler.toml`
+3. create a Worker in cf, replace `name` and `account_id` in `wrangler.toml`
+4. run `npx wrangler kv:namespace create hammal_cache` and copy the `id` in output.
+5. replace `kv id` in `wrangler.toml`
+6. run `pnpm run deploy`
+7. add custom domain in Worker trigger
+8. Use your custom domain as docker registry mirror:
+
+   ```
+   sudo tee /etc/docker/daemon.json <<EOF
+    {
+      "registry-mirrors": [
+        "https://hammal.example.com"
+      ]
+    }
+    EOF
+   ```
