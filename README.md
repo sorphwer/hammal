@@ -12,11 +12,12 @@ Build self-hosted docker mirror in cloudflare.
 8. Use your custom domain as docker registry mirror:
 
    ```
-   sudo tee /etc/docker/daemon.json <<EOF
+   cat /etc/docker/daemon.json
     {
       "registry-mirrors": [
         "https://hammal.example.com"
       ]
     }
-    EOF
    ```
+
+Notes: You can use `cp daemon.json /etc/docker/daemon.json`, and run `sudo service docker restart` then `docker info` to check if registry is updated.
